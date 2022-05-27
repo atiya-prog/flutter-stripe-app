@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
+import 'package:stripe_app/blocs/blocs.dart';
 import 'package:stripe_app/data/data.dart';
 import 'package:stripe_app/helpers/helpers.dart';
 import 'package:stripe_app/screens/screens.dart';
@@ -53,6 +55,7 @@ class HomeScreen extends StatelessWidget {
           
                 return GestureDetector(
                   onTap: () {
+                    BlocProvider.of<PayBloc>(context, listen: false).add(ActivateCreditCard(creditCardModel));
                     Navigator.push(context, fadeInNavigator(context, const CreditCardScreen()));
                   },
                   child: Hero(

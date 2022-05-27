@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
-import 'package:stripe_app/models/models.dart';
+
+import 'package:stripe_app/blocs/blocs.dart';
 import 'package:stripe_app/widgets/widgets.dart';
 
 class CreditCardScreen extends StatelessWidget {
@@ -12,18 +15,22 @@ class CreditCardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final creditCardModel = CreditCardModel(
-      cardNumberHidden: '4242',
-      cardNumber: '4242424242424242',
-      brand: 'visa',
-      cvv: '213',
-      expiracyDate: '01/25',
-      cardHolderName: 'Fernando Herrera'
-    );
+    final payBloc = BlocProvider.of<PayBloc>(context);
+
+    final creditCardModel = payBloc.state.creditCardModel!;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pay'),
+        leading: IconButton(
+          onPressed: () {
+            payBloc.add(DesactivateCreditCard());
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios
+          ),
+        ),
       ),
       body: Stack(
         children: [
